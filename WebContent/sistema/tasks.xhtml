@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/layoutBase.xhtml">
+
+	<ui:define name="content">
+		<p:commandButton value="Nova Tarefa" icon="ui-icon-pencil" onclick="PF('modalCadastro').show();" style="margin-left:2%" />
+		<p:commandButton value="Tarefas em aberto" actionListener="#{tarefaController.listarTodasAsTarefasEmAberto()}" icon="ui-icon-book" style="margin-left:2%" update="tarefas" />
+		<p:commandButton value="Tarefas concluidas" actionListener="#{tarefaController.listarTodasAsTarefasFinalizadas()}" icon="ui-icon-book" style="margin-left:2%" update="tarefas" />
+		<p:commandButton value="Todas as Tarefas" actionListener="#{tarefaController.listarTodasAsTarefas()}" icon="ui-icon-book" style="margin-left:2%" update="tarefas" />
+
+		<p:dataTable id="tarefas" var="tarefa" emptyMessage="Nenhuma Tarefa." rowKey="#{tarefa.titulo}" style="margin-bottom:2%; margin-top:2%; margin-left:2%; margin-right:2%"
+			value="#{tarefaController.tarefas}">
+			<f:facet name="header">
+           Tarefas
+       </f:facet>
+			<p:column headerText="Título">
+				<h:outputText value="#{tarefa.titulo}" />
+			</p:column>
+
+			<p:column headerText="Descrição">
+				<h:outputText value="#{tarefa.descricao}" />
+			</p:column>
+
+			<p:column headerText="Tipo">
+				<h:outputText value="#{tarefa.tipo.descricao}" />
+			</p:column>
+
+			<p:column headerText="Finalizada" style="width:55px">
+				<p:selectBooleanCheckbox value="#{tarefa.fgFinalizada}" style="margin-left:40%; margin-right:40%" disabled="true" />
+			</p:column>
+
+			<p:column style="width:32px;text-align: center">
+				<p:commandButton update=":formDialog:detalhesTarefa" oncomplete="PF('tarefaDialog').show()" icon="ui-icon-search" title="View">
+					<f:setPropertyActionListener value="#{tarefa}" target="#{tarefaController.tarefaSelecionada}" />
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+		<h:form id="formDialog">
+
+			<!-- Dialog para alteração de detalhes de tarefas -->
+			<p:dialog header="Detalhes da Tarefa" widgetVar="tarefaDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="detalhesTarefa" style="text-align:center;">
+						<p:panelGrid columns="2" styleClass="semBorda">
+
+							<p:outputLabel for="titulo" value="Título:" />
+							<p:inputText id="titulo" style="width:160px" value="#{tarefaController.tarefaSelecionada.titulo}" />
+
+							<p:outputLabel value="Descrição" for="descricao" />
+							<h:inputTextarea id="descricao" style="width:160px" value="#{tarefaController.tarefaSelecionada.descricao}" />
+
+							<p:outputLabel value="Tipo:" for="tipo" />
+							<p:selectOneMenu id="tipo" style="width:145px" value="#{tarefaController.tarefaSelecionada.tipo}">
+								<f:selectItems value="#{tarefaController.tiposDeTarefas}" var="tipo" itemLabel="#{tipo.descricao}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Finalizada:" for="finalizada" />
+							<p:selectBooleanCheckbox id="finalizada" value="#{tarefaController.tarefaSelecionada.fgFinalizada}" />
+							<p:commandButton update=":tarefas" icon="ui-icon-trash" value="Excluir" actionListener="#{tarefaController.excluirTarefa()}">
+								<p:confirm header="Excluir tarefas" message="Você tem certeza?" />
+							</p:commandButton>
+
+							<p:commandButton update=":tarefas" icon="ui-icon-save" value="Salvar" actionListener="#{tarefaController.alterarTarefa()}" />
+
+						</p:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+
+		<h:form id="dialogCadastroTarefa">
+			<p:dialog header="Cadastro de Tarefa" widgetVar="modalCadastro" modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+					  closeOnEscape="true" draggable="true" id="modalCadastro">
+				<p:outputPanel id="cadastroTarefa" style="text-align:center;">
+					<p:panelGrid id="panelAddTarefa" columns="2" styleClass="semBorda">
+						<p:outputLabel for="tituloCadastro" value="Título:" />
+						<p:inputText id="tituloCadastro" style="width:160px" value="#{tarefaController.tarefaSelecionada.titulo}" required="true" requiredMessage="O título é de preenchimento obrigatório" />
+						<p:outputLabel for="descricaoCadastro" value="Descrição:" />
+						<p:inputTextarea id="descricaoCadastro" style="width:160px" value="#{tarefaController.tarefaSelecionada.descricao}" required="true" requiredMessage="A descrição é de preenchimento obrigatório" />
+						<p:outputLabel for="tipoCadastro" value="Tipo:" />
+						<p:selectOneMenu id="tipoCadastro" style="width:145px" value="#{tarefaController.tarefaSelecionada.tipo}" required="true" requiredMessage="O tipo é de preenchimento obrigatório">
+							<f:selectItems value="#{tarefaController.tiposDeTarefas}" var="tipo" itemLabel="#{tipo.descricao}" />
+
+						</p:selectOneMenu>
+					</p:panelGrid>
+					<br />
+					<p:commandButton value="Salvar" update="panelAddTarefa, tarefas" actionListener="#{tarefaController.salvarNovaTarefa}" />
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+</html>

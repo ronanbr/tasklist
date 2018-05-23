@@ -1,0 +1,14 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+
+<h:form>
+
+	<p:menubar>
+		<p:menuitem value="Tarefas" icon="ui-icon-pencil" action="tasks.xhtml" actionListener="#{taskController.listarTodasAsTarefas()}" />
+
+	</p:menubar>
+
+	<p:growl id="growl" showDetail="true" autoUpdate="true" />
+	
+</h:form>
+
+</html>
