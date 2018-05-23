@@ -14,7 +14,7 @@
 * CDI
 * JPA
 * TomCat8 (Local)
-
+* Amazon Elastic Beanstalk (Hospedagem)
 * Maven
 * PrimeFaces 5.3
 
