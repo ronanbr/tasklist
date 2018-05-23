@@ -1,17 +1,17 @@
 package br.com.tasklist.entity;
 
-import javax.persistence.Column;
+import br.com.tasklist.dto.TarefaDto;
+import br.com.tasklist.enums.TiposDeTarefa;
+import org.modelmapper.ModelMapper;
+
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 
-import org.modelmapper.ModelMapper;
-
-import br.com.tasklist.dto.TarefaDto;
-import br.com.tasklist.enums.TiposDeTarefa;
 
 @NamedQueries({
 

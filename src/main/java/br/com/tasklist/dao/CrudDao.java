@@ -7,6 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import br.com.tasklist.entity.BaseEntity;
@@ -30,7 +31,7 @@ public abstract class CrudDao<E extends BaseEntity<ID>, ID extends Serializable>
         } catch (Exception e) {
             tentaExecutarRollbackNaTransacao();
             e.printStackTrace();
-            throw new DaoException("N�o foi possivel salvar", e);
+            throw new DaoException("Não foi possivel salvar.", e);
 
         }
         return entity;
@@ -44,7 +45,7 @@ public abstract class CrudDao<E extends BaseEntity<ID>, ID extends Serializable>
         } catch (Exception e) {
             tentaExecutarRollbackNaTransacao();
             e.printStackTrace();
-            throw new DaoException("N�o foi possivel alterar", e);
+            throw new DaoException("Não foi possivel alterar", e);
         }
         return entity;
     }
@@ -53,7 +54,7 @@ public abstract class CrudDao<E extends BaseEntity<ID>, ID extends Serializable>
         try {
             em.getTransaction().rollback();
         } catch (Exception ex) {
-            System.out.println("N�o foi necess�rio dar rollback!");
+            System.out.println("Não foi necessário o rollback!");
         }
     }
 
@@ -64,7 +65,7 @@ public abstract class CrudDao<E extends BaseEntity<ID>, ID extends Serializable>
         } catch (Exception e) {
             tentaExecutarRollbackNaTransacao();
             e.printStackTrace();
-            throw new DaoException("N�o foi possivel excluir", e);
+            throw new DaoException("Não foi possivel excluir", e);
 
         }
 

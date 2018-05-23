@@ -1,19 +1,18 @@
 package br.com.tasklist.controller;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.primefaces.context.RequestContext;
-
 import br.com.tasklist.dto.TarefaDto;
 import br.com.tasklist.enums.TiposDeTarefa;
 import br.com.tasklist.exception.BaseException;
 import br.com.tasklist.service.TarefaService;
 import br.com.tasklist.uteis.Uteis;
+import org.primefaces.context.RequestContext;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
+import java.util.List;
 
 @Named(value = "tarefaController")
 @SessionScoped
@@ -29,6 +28,11 @@ public class TarefaController implements Serializable {
 
     // Lista de tarefas que compõe o datatable no JSF
     private List<TarefaDto> tarefas;
+
+    @PostConstruct
+    public void inicializar(){
+        listarTodasAsTarefas();
+    }
 
     public void salvarNovaTarefa() {
 
