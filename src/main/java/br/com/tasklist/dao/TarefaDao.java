@@ -33,5 +33,4 @@ public class TarefaDao extends CrudDao<TarefaEntity, Long> implements Serializab
         TypedQuery<TarefaEntity> query = em.createNamedQuery(namedQuery, TarefaEntity.class);
         return query.getResultList();
     }
-
 }

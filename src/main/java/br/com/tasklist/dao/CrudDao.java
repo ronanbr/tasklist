@@ -66,9 +66,7 @@ public abstract class CrudDao<E extends BaseEntity<ID>, ID extends Serializable>
             tentaExecutarRollbackNaTransacao();
             e.printStackTrace();
             throw new DaoException("Não foi possivel excluir", e);
-
         }
-
     }
 
     public E buscarPorId(final ID id) {
@@ -90,11 +88,9 @@ public abstract class CrudDao<E extends BaseEntity<ID>, ID extends Serializable>
 
     @SuppressWarnings("unchecked")
     public List<E> listarTodas() {
-
         StringBuilder jpql = new StringBuilder();
         jpql.append("Select e From " + getClassE().getName() + " e ");
         jpql.append(adicionaWhereBuscarTodos());
-
         return em.createQuery(jpql.toString()).getResultList();
     }
 

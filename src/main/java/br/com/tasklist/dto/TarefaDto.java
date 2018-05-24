@@ -1,20 +1,16 @@
 package br.com.tasklist.dto;
 
 import java.io.Serializable;
-
-import org.modelmapper.ModelMapper;
-
-import br.com.tasklist.entity.TarefaEntity;
-import br.com.tasklist.enums.TiposDeTarefa;
+import java.util.Calendar;
+import java.util.Date;
 
 public class TarefaDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     private int codigo;
     private String titulo;
     private String descricao;
-    private TiposDeTarefa tipo;
+    private Date dtAlteracao;
     private boolean fgExcluida;
     private boolean fgFinalizada;
 
@@ -42,18 +38,6 @@ public class TarefaDto implements Serializable {
         this.descricao = descricao;
     }
 
-    public TiposDeTarefa getTipo() {
-        return tipo;
-    }
-
-    public int getCodigoTipo() {
-        return tipo.getCodigo();
-    }
-
-    public void setTipo(TiposDeTarefa tipo) {
-        this.tipo = tipo;
-    }
-
     public boolean isFgExcluida() {
         return fgExcluida;
     }
@@ -70,16 +54,11 @@ public class TarefaDto implements Serializable {
         this.fgFinalizada = fgFinalizada;
     }
 
-    public boolean isManutencaoUrgente() {
-        return this.tipo.equals(TiposDeTarefa.MANUTENCAO_URGENTE);
+    public Date getDtAlteracao() {
+        return dtAlteracao;
     }
 
-    public boolean isAtendimento() {
-        return this.tipo.equals(TiposDeTarefa.ATENDIMENTO);
+    public void setDtAlteracao(Date dtAlteracao) {
+        this.dtAlteracao = dtAlteracao;
     }
-
-    public TarefaEntity toEntity() {
-        return new ModelMapper().map(this, TarefaEntity.class);
-    }
-
 }

@@ -1,7 +1,6 @@
 package br.com.tasklist.controller;
 
 import br.com.tasklist.dto.TarefaDto;
-import br.com.tasklist.enums.TiposDeTarefa;
 import br.com.tasklist.exception.BaseException;
 import br.com.tasklist.service.TarefaService;
 import br.com.tasklist.uteis.Uteis;
@@ -26,7 +25,6 @@ public class TarefaController implements Serializable {
     @Inject
     private TarefaService tarefaService;
 
-    // Lista de tarefas que compõe o datatable no JSF
     private List<TarefaDto> tarefas;
 
     @PostConstruct
@@ -35,34 +33,29 @@ public class TarefaController implements Serializable {
     }
 
     public void salvarNovaTarefa() {
-
         try {
             tarefaService.salvarNovaTarefa(tarefaSelecionada);
 
             this.listarTodasAsTarefas();
             RequestContext.getCurrentInstance().execute("PF('modalCadastro').hide();");
-            Uteis.MensagemInfo("Tarefa cadastrada com sucesso");
+            Uteis.mensagemInfo("Tarefa cadastrada com sucesso");
             tarefaSelecionada = new TarefaDto();
 
         } catch (BaseException e) {
-            Uteis.MensagemAtencao(e.getMessage());
+            Uteis.mensagemAtencao(e.getMessage());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 
     public void alterarTarefa() {
         try {
-
             tarefaService.alterarTarefa(tarefaSelecionada);
-
             RequestContext.getCurrentInstance().execute("PF('tarefaDialog').hide();");
-            Uteis.MensagemInfo("Tarefa alterada com sucesso");
+            Uteis.mensagemInfo("Tarefa alterada com sucesso");
             tarefaSelecionada = new TarefaDto();
-
         } catch (BaseException e) {
-            Uteis.MensagemAtencao(e.getMessage());
+            Uteis.mensagemAtencao(e.getMessage());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -70,20 +63,16 @@ public class TarefaController implements Serializable {
 
     public void excluirTarefa() {
         try {
-
             tarefaService.excluirTarefa(tarefaSelecionada);
-
             this.listarTodasAsTarefas();
             RequestContext.getCurrentInstance().execute("PF('tarefaDialog').hide();");
-            Uteis.MensagemInfo("Tarefa excluida com sucesso");
+            Uteis.mensagemInfo("Tarefa excluida com sucesso");
             tarefaSelecionada = new TarefaDto();
-
         } catch (BaseException e) {
-            Uteis.MensagemAtencao(e.getMessage());
+            Uteis.mensagemAtencao(e.getMessage());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     }
 
     public void listarTodasAsTarefas() {
@@ -96,10 +85,6 @@ public class TarefaController implements Serializable {
 
     public void listarTodasAsTarefasFinalizadas() {
         this.tarefas = tarefaService.listarTodasAsTarefasFinalizadas();
-    }
-
-    public TiposDeTarefa[] getTiposDeTarefas() {
-        return TiposDeTarefa.values();
     }
 
     public List<TarefaDto> getTarefas() {

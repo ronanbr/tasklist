@@ -11,6 +11,8 @@ import br.com.tasklist.dao.CrudDao;
 import br.com.tasklist.entity.BaseEntity;
 import br.com.tasklist.exception.DaoException;
 
+import javax.inject.Inject;
+
 /**
  * Service com metodos genericos para CRUD.
  */
@@ -62,15 +64,22 @@ public abstract class CrudService<E extends BaseEntity<ID>, ID extends Serializa
     }
 
     public E toEntity(D dto) {
-        return mapper.map(dto, getClassE());
+        return getMapper().map(dto, getClassE());
     }
 
     public D toDto(E entidade) {
-        return mapper.map(entidade, getClassDto());
+        return getMapper().map(entidade, getClassDto());
     }
 
     public List<D> toDto(List<E> entidades) {
-        return entidades.stream().map(e -> mapper.map(e, getClassDto())).collect(Collectors.toList());
+        return entidades.stream().map(e -> getMapper().map(e, getClassDto())).collect(Collectors.toList());
+    }
+
+    public ModelMapper getMapper() {
+        if(mapper == null){
+            this.mapper = new ModelMapper();
+        }
+        return mapper;
     }
 
     protected abstract CrudDao<E, ID> getDao();
@@ -90,5 +99,4 @@ public abstract class CrudService<E extends BaseEntity<ID>, ID extends Serializa
         }
         return classDto;
     }
-
 }

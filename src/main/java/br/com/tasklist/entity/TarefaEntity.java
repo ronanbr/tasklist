@@ -1,16 +1,11 @@
 package br.com.tasklist.entity;
 
-import br.com.tasklist.dto.TarefaDto;
-import br.com.tasklist.enums.TiposDeTarefa;
-import org.modelmapper.ModelMapper;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 
 @NamedQueries({
@@ -31,9 +26,8 @@ public class TarefaEntity extends BaseEntity<Long> {
     @Column(name = "ds_tarefa")
     private String descricao;
 
-    @Column(name = "tp_tarefa")
-    @Enumerated(EnumType.STRING)
-    private TiposDeTarefa tipo;
+    @Column(name = "dt_alteracao")
+    private Date dtAlteracao;
 
     @Column(name = "fg_excluida")
     private boolean fgExcluida;
@@ -63,14 +57,6 @@ public class TarefaEntity extends BaseEntity<Long> {
         this.descricao = descricao;
     }
 
-    public TiposDeTarefa getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TiposDeTarefa tipo) {
-        this.tipo = tipo;
-    }
-
     public boolean isFgExcluida() {
         return fgExcluida;
     }
@@ -87,8 +73,11 @@ public class TarefaEntity extends BaseEntity<Long> {
         this.fgFinalizada = fgFinalizada;
     }
 
-    public TarefaDto toDto() {
-        return new ModelMapper().map(this, TarefaDto.class);
+    public Date getDtAlteracao() {
+        return dtAlteracao;
     }
 
+    public void setDtAlteracao(Date dtAlteracao) {
+        this.dtAlteracao = dtAlteracao;
+    }
 }

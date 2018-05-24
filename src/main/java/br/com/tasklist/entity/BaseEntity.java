@@ -32,7 +32,6 @@ public abstract class BaseEntity<ID extends Serializable> {
         }
 
         BaseEntity<?> that = (BaseEntity<?>) o;
-
         return codigo != null ? codigo.equals(that.codigo) : that.codigo == null;
     }
 

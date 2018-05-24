@@ -8,10 +8,10 @@
 <ui:composition template="/template/layoutBase.xhtml">
 
 	<ui:define name="content">
-		<p:commandButton value="Nova Tarefa" icon="ui-icon-pencil" onclick="PF('modalCadastro').show();" style="margin-left:2%" />
-		<p:commandButton value="Tarefas em aberto" actionListener="#{tarefaController.listarTodasAsTarefasEmAberto()}" icon="ui-icon-book" style="margin-left:2%" update="tarefas" />
-		<p:commandButton value="Tarefas concluidas" actionListener="#{tarefaController.listarTodasAsTarefasFinalizadas()}" icon="ui-icon-book" style="margin-left:2%" update="tarefas" />
-		<p:commandButton value="Todas as Tarefas" actionListener="#{tarefaController.listarTodasAsTarefas()}" icon="ui-icon-book" style="margin-left:2%" update="tarefas" />
+		<p:commandButton value="Nova Tarefa" icon="ui-icon-document" onclick="PF('modalCadastro').show();" style="margin-left:2%" />
+		<p:commandButton value="Tarefas em aberto" actionListener="#{tarefaController.listarTodasAsTarefasEmAberto()}" icon="ui-icon-clipboard" style="margin-left:2%" update="tarefas" />
+		<p:commandButton value="Tarefas concluidas" actionListener="#{tarefaController.listarTodasAsTarefasFinalizadas()}" icon="ui-icon-clipboard" style="margin-left:2%" update="tarefas" />
+		<p:commandButton value="Todas as Tarefas" actionListener="#{tarefaController.listarTodasAsTarefas()}" icon="ui-icon-clipboard" style="margin-left:2%" update="tarefas" />
 
 		<p:dataTable id="tarefas" var="tarefa" emptyMessage="Nenhuma Tarefa." rowKey="#{tarefa.titulo}" style="margin-bottom:2%; margin-top:2%; margin-left:2%; margin-right:2%"
 			value="#{tarefaController.tarefas}">
@@ -26,16 +26,18 @@
 				<h:outputText value="#{tarefa.descricao}" />
 			</p:column>
 
-			<p:column headerText="Tipo">
-				<h:outputText value="#{tarefa.tipo.descricao}" />
+			<p:column headerText="Modificada em">
+				<h:outputText value="#{tarefa.dtAlteracao}" >
+					<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+				</h:outputText>
 			</p:column>
 
-			<p:column headerText="Finalizada" style="width:55px">
+			<p:column headerText="Concluída" style="width:55px">
 				<p:selectBooleanCheckbox value="#{tarefa.fgFinalizada}" style="margin-left:40%; margin-right:40%" disabled="true" />
 			</p:column>
 
 			<p:column style="width:32px;text-align: center">
-				<p:commandButton update=":formDialog:detalhesTarefa" oncomplete="PF('tarefaDialog').show()" icon="ui-icon-search" title="View">
+				<p:commandButton update=":formDialog:detalhesTarefa" oncomplete="PF('tarefaDialog').show()" icon="ui-icon-pencil" title="View">
 					<f:setPropertyActionListener value="#{tarefa}" target="#{tarefaController.tarefaSelecionada}" />
 				</p:commandButton>
 			</p:column>
@@ -55,12 +57,7 @@
 							<p:outputLabel value="Descrição" for="descricao" />
 							<h:inputTextarea id="descricao" style="width:160px" value="#{tarefaController.tarefaSelecionada.descricao}" />
 
-							<p:outputLabel value="Tipo:" for="tipo" />
-							<p:selectOneMenu id="tipo" style="width:145px" value="#{tarefaController.tarefaSelecionada.tipo}">
-								<f:selectItems value="#{tarefaController.tiposDeTarefas}" var="tipo" itemLabel="#{tipo.descricao}" />
-							</p:selectOneMenu>
-
-							<p:outputLabel value="Finalizada:" for="finalizada" />
+							<p:outputLabel value="Concluída:" for="finalizada" />
 							<p:selectBooleanCheckbox id="finalizada" value="#{tarefaController.tarefaSelecionada.fgFinalizada}" />
 							<p:commandButton update=":tarefas" icon="ui-icon-trash" value="Excluir" actionListener="#{tarefaController.excluirTarefa()}">
 								<p:confirm header="Excluir tarefas" message="Você tem certeza?" />
@@ -82,11 +79,6 @@
 						<p:inputText id="tituloCadastro" style="width:160px" value="#{tarefaController.tarefaSelecionada.titulo}" required="true" requiredMessage="O título é de preenchimento obrigatório" />
 						<p:outputLabel for="descricaoCadastro" value="Descrição:" />
 						<p:inputTextarea id="descricaoCadastro" style="width:160px" value="#{tarefaController.tarefaSelecionada.descricao}" required="true" requiredMessage="A descrição é de preenchimento obrigatório" />
-						<p:outputLabel for="tipoCadastro" value="Tipo:" />
-						<p:selectOneMenu id="tipoCadastro" style="width:145px" value="#{tarefaController.tarefaSelecionada.tipo}" required="true" requiredMessage="O tipo é de preenchimento obrigatório">
-							<f:selectItems value="#{tarefaController.tiposDeTarefas}" var="tipo" itemLabel="#{tipo.descricao}" />
-
-						</p:selectOneMenu>
 					</p:panelGrid>
 					<br />
 					<p:commandButton value="Salvar" update="panelAddTarefa, tarefas" actionListener="#{tarefaController.salvarNovaTarefa}" />
