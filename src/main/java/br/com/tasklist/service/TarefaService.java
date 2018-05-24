@@ -8,10 +8,7 @@ import br.com.tasklist.exception.DaoException;
 
 import javax.inject.Inject;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TarefaService extends CrudService<TarefaEntity, Long, TarefaDto> implements Serializable {
