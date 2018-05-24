@@ -1,10 +1,5 @@
 # TaskList #
 
-### How do I get set up? ###
-
-* Create a PostgreSQL database named tasklist
-* PostgreSQL username and password must be: postgres
-
 ### Used Resources ###
 
 * JAVA8
